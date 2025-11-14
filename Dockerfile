@@ -1,17 +1,26 @@
-FROM node:18-alpine
-
+# ---- Build-Stage ----
+FROM node:20-alpine AS build
 WORKDIR /app
 
-COPY package.json .
+# Paketinfos kopieren und Dependencies installieren
+COPY package*.json ./
+RUN npm ci
 
-RUN npm install
-
-RUN npm i -g serve
-
+# Restlichen Code kopieren
 COPY . .
 
+# Produktion-Build ausführen
 RUN npm run build
 
-EXPOSE 8075
+# ---- Runtime-Stage (Nginx als Webserver) ----
+FROM nginx:alpine
 
-CMD [ "serve", "-s", "dist" ]
+# Build-Ergebnis in den Webroot kopieren (bei Vite/React ist es meist /dist)
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Optional: eigene nginx.conf, wenn du willst
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
