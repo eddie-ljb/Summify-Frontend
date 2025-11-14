@@ -1,0 +1,7 @@
+export function MobileTopBar() {
+    return (
+        <div className="navbar bg-primary text-primary-content">
+            <button className="btn btn-ghost text-xl">Summify</button>
+        </div>
+    );
+}

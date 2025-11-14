@@ -2,26 +2,25 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {DashboardPage} from "./pages/DashboardPage.jsx";
+import {SettingsPage} from "./pages/SettingsPage.jsx";
+import {SummariesPage} from "./pages/SummariesPage.jsx";
+import {CoursesPage} from "./pages/CoursesPage.jsx";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import AppLayout from "./layouts/AppLayout.jsx";
 
 export default function App() {
   return (
-    <div className="p-10 min-h-screen bg-base-200">
-      <h1 className="text-4xl font-bold text-primary">
-        Eddies Theme läuft 🚀
-      </h1>
-
-      <button className="btn btn-secondary mt-6">
-        DaisyUI Button
-      </button>
-
-      <div className="card w-96 bg-base-100 shadow-xl mt-10">
-        <div className="card-body">
-          <h2 className="card-title">Eine DaisyUI Card</h2>
-          <p>Sieht dein Theme richtig aus? Dann ist alles perfekt.</p>
-          <button className="btn btn-primary">Klick mich</button>
-        </div>
-      </div>
-    </div>
+      <BrowserRouter>
+          <AppLayout>
+              <Routes>
+                  <Route path="/" element={<DashboardPage />} />
+                  <Route path="/courses" element={<CoursesPage />} />
+                  <Route path="/summaries" element={<SummariesPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+              </Routes>
+          </AppLayout>
+      </BrowserRouter>
   );
 }
 
